@@ -9,9 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-
+use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
+    use HasRoles;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -61,5 +62,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function cart()
+    {
+        return $this->hasMany(carrito::class , 'id_user');
+    }   
+
+    public function ordenes_de_pagos()
+    {
+        return $this->hasMany(Tranferencia::class , 'id_user');
+    }
+
+    public function historia_compras()
+    {
+        return $this->hasMany(HistoriaCompra::class );
     }
 }
