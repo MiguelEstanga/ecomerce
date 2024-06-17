@@ -56,7 +56,7 @@
                     <form action="{{ route('admin.editar_orden_estan', $Tranferencia->id) }}" method="POST">
                         @csrf
                             <div class="container row">
-                                <label for="inputPassword6" class="col-form-label">Estado</label>
+                                <label for="inputPassword6" class="col-form-label">Modificar Agencia de envio</label>
                                 <select name="cambiar_empresa_de_envio" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
                                    <option value="1">si</option>
                                    <option selected value="0">no</option>

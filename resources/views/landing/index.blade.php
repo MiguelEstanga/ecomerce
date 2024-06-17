@@ -20,25 +20,48 @@
           </div>
          
     </div>
+
+    
     <div class="container categoria-main">
         @foreach ($categorias as $categoria)
-            <a class="categoria" href="{{route('producto.buscar', $categoria->id)}}">
-              {{$categoria->nombre}}
-            </a> 
+            <div class="Categorias-container" style="" >
+              <div class="img-categoria">
+                  <img style="border-radius: 10px 10px 0 0;" width="100%" height="100%" src="{{asset('storage/'.$categoria->imagen)}}" alt="">
+              </div>
+              <div class="categoria-name">
+                {{$categoria->nombre}}
+              </div>
+              <a class="enlace-categoria" href="{{route('producto.buscar', $categoria->id)}}">
+                  ir a {{$categoria->nombre}}
+              </a> 
+            </div>
+           
         @endforeach   
 
 
     </div>
-    <div class="container main-container">
-            @foreach ($productos as $producto)
-              <x-producto  :producto="$producto" />
-            @endforeach
-           
-         
+    <div class="contenedor_productos">
+        <div class="container productos">
+          <x-slice-cart-producto  :data="$fila1" />
+        </div>
+    
+        <div class="container productos">
+          <x-slice-cart-producto  :data="$fila2" />
+        </div>
+    
+        <div class="container productos">
+          <x-slice-cart-producto  :data="$fila3" />
+        </div>
+    
+        <div class="container productos">
+          <x-slice-cart-producto  :data="$fila4" />
+        </div>
     </div>
-   <div class="container pagination">
-    {{$productos->links()}}
-   </div>
+    
+
+
+   
+  
     <x-footer />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 

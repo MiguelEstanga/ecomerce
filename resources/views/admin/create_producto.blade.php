@@ -3,10 +3,10 @@
 @section('content')
     <div class="container" style="height: auto!important;">
         <div class="container row">
-            <div class="col-md-3 menu_cliente">
+            <div class="col-md-3 menu_admin">
                 <x-menu-admin />
             </div>
-            <div class="col-md-8 col-sm-6 cliente_data" style="height: auto!important;">
+            <div class="col-md-8 col-sm-6 data_admin    " style="height: auto!important;">
                 @if(session()->has('mensaje'))
                     <h2 class="alert alert-success" style="margin-top: 20px;">
                         {{ session()->get('mensaje') }}
@@ -53,7 +53,7 @@
                                 </select>
                             </div>   
                             <div class="col-md-4">
-                                <label  class="form-label"> Descueneto % </label>
+                                <label  class="form-label"> Descuento % </label>
                                 <input disabled type="number" class="form-control" name="descuento_monto" placeholder="Descueneto" value="{{ old('descuento_monto') }}" id="descuento_monto">
                             </div>   
                             <div class="col-md-4 mb3">
@@ -68,8 +68,12 @@
                                 
                                 <label  class="form-label">Nombre</label>
                                 <input type="text" class="form-control" name="nombre" placeholder="Nombre" value="{{ old('nombre') }}">
-                            </div>   
-                            
+                            </div>   descripcion
+                            <div class="col-md-12  mb3">
+                                
+                                <label  class="form-label">Descipción</label>
+                                <input type="text" class="form-control" name="descripcion_main" placeholder="Nombre" value="{{ old('nombre') }}">
+                            </div>
                         </div>
                         <div class="separador"></div>
                     </div>

@@ -3,8 +3,8 @@
 </footer>
 <style>
     footer{
-       
-        height: 100px   ;
+        border: solid 1px red;
+        height: 200px   ;
         width: 100%;
         margin:20px 0 0 0;
     }

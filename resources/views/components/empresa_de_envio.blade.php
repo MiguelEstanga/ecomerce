@@ -7,6 +7,9 @@
         <div class="mb-3 col-md-6">
             <label for="formGroupExampleInput2" class="form-label">Empresa de envio</label>
             <select name="empresa_de_envio" id="empresa_de_envio" class="form-select" id="formGroupExampleInput2">
+                <option value="">
+                    Seleccione una empresa
+                </option>
                 @foreach($empresa_de_envio as $empresa)
                     <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
                 @endforeach
@@ -24,6 +27,7 @@
             var empresa_de_envio = document.getElementById('empresa_de_envio');
             var sucursal = document.getElementById('sucursal');
             empresa_de_envio.addEventListener('change', function () {
+                console.log(empresa_de_envio.value);
                 let url = '{{route('sucursal', "x")}}';
                 url = url.replace('x', empresa_de_envio.value);
                 fetch(url)

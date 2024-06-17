@@ -4,7 +4,7 @@
 
     <div class="container categoria-main  ">
         @foreach ($categorias as $categoria)
-            <a class="categoria {{$nombreCategoria->id == $categoria->id ? "active" :"" }}" href="{{route('producto.buscar', $categoria->id)}}">
+            <a class="categoria " href="{{route('producto.buscar', $categoria->id)}}">
                 {{$categoria->nombre}}
             </a> 
         @endforeach   
@@ -12,22 +12,66 @@
 
     </div>
     <div class="alert alert-success" role="alert">
-            {{$nombreCategoria->nombre}}
+            {{$filterName}}
     </div>
-    <div class="container productos ">  
-
-        @foreach($productos as $producto)
-            <x-producto :producto="$producto" />
-        @endforeach
-    </div>
+    @if( count($productos) == 0)
+        <div class="alert alert-danger" role="alert">
+            No hay productos que coincidan con la búsqueda
+        </div>
+    @else
+        <div class="container productos ">  
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Descripción</th>
+                        <th>Ventas</th>
+                        <th>Stop</th>
+                    </tr>   
+                </thead>
+                <tbody >
+                    @foreach($productos as $producto)
+                      
+                            <tr class="producto_item">
+                                <th>
+                                    <a href="{{route('producto.show', $producto->id)}}" style="cursor: pointer">
+                                        <img width="60px" height="60px" src="{{asset('storage/' . $producto->inmagen_default)}}" alt="">
+                                    </a>
+                                   
+                                </th>
+                                <th>{{$producto->nombre}}</th>
+                                <th>{{$producto->precio}}</th>
+                                <th>{{$producto->descripcion}}</th>
+                                <th>{{ $producto->ventas }}</th>
+                                <th>{{ $producto->stop }}</th>
+                            </tr>
+                      
+                    @endforeach
+                </tbody>
+            </table>
+           
+        </div>
+    @endif
+   
     <style>
+        .producto_item{
+            cursor: cell;
+            transition: all 0.3s ease;
+        }
+        .producto_item:hover{
+            box-shadow: 0 0 10px #000;
+        }
         .productos{
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+          
             background: rgb(255, 255, 255 , .5);
-            margin-top: 30px;
+            margin-top: 10px;
             padding: 20px;
             border-radius: 10px;
+            gap: 10px;
+            height: auto;
         }
 
         .categoria-main{

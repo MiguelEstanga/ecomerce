@@ -31,14 +31,19 @@ class AuthController extends Controller
     public function registro_post(Request $request) 
     {
         
+        $check = User::where('email', $request->email)->exists();  
+        if($check){
+            return back()->with('mensaje', 'El usuario ya existe');
+        }
         if($request->password != $request->passworsd_confirmation){
-            return redirect()->route('registro.index')->with('mensaje', 'Las contraseñas no coinciden');
+            return back()->with('mensaje', 'Las contraseñas no coinciden');
         }
         
         $user = User::create([
             'name' => $request->nombre,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'numero_telefono' => $request->telefono ?? null,
 
         ])->assignRole('user');
 

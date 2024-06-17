@@ -1,7 +1,7 @@
 <div>
     <ul class="container">
-        <li>
-            <a href="">
+        <li class="{{ Route::is('admin.clientes') ? 'active' : '' }}">
+            <a href="{{route('admin.clientes')}}">
                 Clientes
             </a>
         </li>
@@ -17,8 +17,8 @@
             </a>
         </li>
       
-        <li>
-            <a href="">
+        <li class="{{ Route::is('admin.crear_admin') ? 'active':'' }}">
+            <a href="{{route('admin.crear_admin')}}">
                Ver administradores
             </a>
         </li>
@@ -37,14 +37,19 @@
                 Crear productos
             </a>
         </li>
-        <li class="{{ Route::is('admin.crear_producto') ? 'active' : '' }}">
-            <a href="{{ route('admin.create_producto') }}">
+        <li class="{{ Route::is('admin.producto') ? 'active' : '' }}">
+            <a href="{{ route('admin.producto') }}">
               Productos
             </a>
         </li>
         <li class="{{ Route::is('admin.ordenes_no_pagas') ? 'active' : '' }}">
             <a href="{{ route('admin.ordenes_no_pagas') }}">
                Ordenes no pagas  
+            </a>
+        </li>
+        <li class="{{ Route::is('admin.ordenes_en_envio') ? 'active' : '' }}">
+            <a href="{{ route('admin.ordenes_en_envio') }}">
+               Ordenes en proceso
             </a>
         </li>
         <li class="{{ Route::is('admin.ordenes_pagas') ? 'active' : '' }}">

@@ -22,14 +22,14 @@
                                     <td>{{ $OrdenesDePago->fecha }}</td>
                                     <td>{{$OrdenesDePago->id_estado}}</td>
                                     <td>
-                                        @php
-                                            $monto = 0;
-                                            foreach( $OrdenesDePago->HistorialCompra as $item){
-                                                $monto =$monto + $item->producto->precio;
-                                            }
-                                        @endphp
-                                     
-                                        {{ $monto }}
+                                        @if($OrdenesDePago->id_pago == 1)
+                                         {{$OrdenesDePago->monto}}BS
+                                        @endif
+
+                                        @if($OrdenesDePago->id_pago == 2)
+                                        {{$OrdenesDePago->monto}}$
+                                       @endif
+                                       
                                     </td>
                                     <td></td>
                                     <td>

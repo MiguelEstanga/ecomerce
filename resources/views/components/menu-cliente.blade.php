@@ -1,12 +1,12 @@
 <div>
     <ul class="container">
-        <li>
-            <a href="">
+        <li class=" link {{ Route::is('user.ordenes_pagas') ? 'active' : '' }}">
+            <a href="{{route('user.ordenes_pagas')}}">
                 Datos 
             </a>
         </li>
         <li>
-            <a href="">
+            <a href="{{route('user.productos')}}">
                Compras
             </a>
         </li>
@@ -37,6 +37,10 @@
     }
     ul li:hover{
         background-color: #eee;
+        background-color:  #148f77 ;
+    }
+
+    ul .link.active{
         background-color:  #148f77 ;
     }
 

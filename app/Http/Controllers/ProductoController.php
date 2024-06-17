@@ -32,33 +32,29 @@ class ProductoController extends Controller
 
     public function buscar($categoria)
     {
-         $productos = Producto::where('id_categoria', $categoria)->get();
+         $productos = Producto::where('id_categoria', $categoria)
+            ->get()
+        ;
           $nombreCategoria = Categoria::find($categoria);
          $categorias = Categoria::all();
         return view('producto.busqueda' , [
             'productos' => $productos,
             'categorias' => $categorias,
-            'nombreCategoria' => $nombreCategoria
+            'filterName' =>$nombreCategoria->nombre
         ]);
     }
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function producto_name(Request $request)
     {
-        //
+       
+        $categorias = Categoria::all();
+        $producto = Producto::where('nombre', 'like',"%$request->nombre%")
+            ->get();
+        return view('producto.busqueda' , [
+            'productos' => $producto,
+            'categorias' => $categorias,
+            'filterName' => $request->name
+        ]);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+   
 }

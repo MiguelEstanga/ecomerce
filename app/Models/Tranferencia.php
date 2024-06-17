@@ -19,8 +19,8 @@ class Tranferencia extends Model
         'id_estado',
         'id_user',
         'Comentario',
-        'id_epresas_de_envio_y_retiros',
-        'sucursal',
+        'id_epresas_de_envio_y_retiro',
+        'id_sucursal',
     ];
 
     public function User()

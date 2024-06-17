@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tranferencia;
+use App\Models\User;
 class UserController extends Controller
 {
         public function perfil()
@@ -14,6 +15,7 @@ class UserController extends Controller
             $OrdenesDePagos = Tranferencia::where('id_user', Auth::user()->id)
                 ->where('id_estado', '=', 3)
                 ->OrWhere('id_estado', '=', 2)
+                ->OrWhere('id_estado', '=', 4)
                 ->orderBy('id', 'desc')
 
                 ->paginate(10);
@@ -60,5 +62,20 @@ class UserController extends Controller
                 'Datos' => Auth::user(),
             ]
             );
+        }
+
+        public function update(Request $request)
+        {
+           
+            $usuario = User::find(Auth::user()->id);
+            $usuario->name = $request->nombre;
+            $usuario->email = $request->email;
+            $usuario->numero_telefono = $request->telefono;
+            if($request->password != null)
+            {
+                $usuario->password = bcrypt($request->password);
+            }
+            $usuario->save();
+            return back()->with('mensage', 'Datos actualizados');
         }
 }   

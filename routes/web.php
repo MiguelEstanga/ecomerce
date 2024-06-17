@@ -17,12 +17,13 @@ use App\Http\Controllers\testController;
 Route::get('/testData', [testController::class, 'test'])->name('testData');
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('producto.show');
-
+Route::get('/producto', [ProductoController::class , 'producto_name'])->name('producto.name');
 Route::get('/perfil/{id}', [PerfilController::class, 'show'])->name('perfil.show');
 Route::get('productos/{categoria}', [ProductoController::class, 'buscar'])->name('producto.buscar');
 //admin
 Route::group(['middleware' => 'auth'  , 'middleware' => 'can:admin'], function () {
     Route::get('/admin', [AdminController::class, 'show'])->name('admin.show');
+    Route::get('/admin/clientes', [AdminController::class, 'clientes'])->name('admin.clientes');
     Route::get('/admin/crear-producto', [AdminController::class, 'crear_producto'])->name('admin.create_producto');
     Route::get('/admin/crear-categoria', [AdminController::class, 'crear_categoria'])->name('admin.create_categoria');
     Route::post('/admin/crear-categoria', [AdminController::class, 'store_categoria'])->name('admin.store_categoria');
@@ -34,7 +35,7 @@ Route::group(['middleware' => 'auth'  , 'middleware' => 'can:admin'], function (
     Route::delete('/admin/eliminar-categoria/{id}', [AdminController::class, 'eliminar_categoria'])->name('admin.eliminar_categoria');
     Route::get('/admin/ordenes-no-pagas', [AdminController::class, 'ordenes_no_pagas'])->name('admin.ordenes_no_pagas');
     Route::get('/admin/ordenes-pagas', [AdminController::class, 'ordenes_pagas'])->name('admin.ordenes_pagas');
-
+    Route::get('/admin/ordenes-en-envio', [AdminController::class, 'ordenes_en_envio'])->name('admin.ordenes_en_envio');
     Route::get('/admin/detalles/{id}', [AdminController::class, 'detalles'])->name('admin.detalles_ordenes');
     Route::post('/admin/editando_orden_estado/{id}', [AdminController::class, 'editar_orden_estan'])->name('admin.editar_orden_estan');
     Route::get('/admin/crear-empresa-de-envio', [AdminController::class, 'crear_empresa_de_envio'])->name('admin.create_empresa_de_envio');
@@ -46,15 +47,20 @@ Route::group(['middleware' => 'auth'  , 'middleware' => 'can:admin'], function (
     Route::get('/admin/fijar-dolar', [AdminController::class, 'dolar'])->name('admin.dolar');
     Route::post('/admin/fijar-dolar', [AdminController::class, 'actulizar_dolar'])->name('admin.dolar.post');
 
+    Route::get('/admin/crear-admin', [AdminController::class, 'crear_admin'])->name('admin.crear_admin');
+    Route::post('/admin/crear-admin', [AdminController::class, 'crear_admin_post'])->name('admin.crear_admin_post');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    //admin crear empresa de envio
+    //filtros
    
 
     //tranferencia
+    Route::post('/cache_registrar' , [TranferenciaController::class , 'cache_registrar'] )->name('empres_de_envio_sucursal');
     Route::post('/tranferencia', [TranferenciaController::class, 'tranferencia'])->name('tranferencia.index');
-
+    Route::get('/paypal', [TranferenciaController::class, 'Paypal'])->name('paypal.pago');
+    Route::post('/retirado', [TranferenciaController::class, 'retirado'])->name('retirado');
     //carrito controller 
     Route::post('/carrito', [CarritoController::class, 'carrito'])->name('carrito');
     Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
@@ -70,6 +76,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user/mis_ordernes_pagadas', [UserController::class, 'ordenes_pagadas'])->name('user.ordenes_pagas');
     
     Route::get('/user/datos/{id}', [UserController::class, 'datos'])->name('user.datos');
+
+    Route::post('/user/update', [UserController::class, 'update'])->name('user.update');
 });
 
 

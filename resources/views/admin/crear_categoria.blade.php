@@ -3,10 +3,10 @@
 @section('content')
     <div class="container" style="height: auto!important;">
         <div class="container row">
-            <div class="col-md-3 menu_cliente">
+            <div class="col-md-3 menu_admin">
                 <x-menu-admin />
             </div>
-            <div class="col-md-8 col-sm-6 cliente_data" style="height: auto!important;">
+            <div class="col-md-8 col-sm-6 data_admin" style="height: auto!important;">
                 <div class="row">
                     @if(session()->has('mensaje'))
                     <div class="container">
@@ -15,19 +15,22 @@
                         </h2>
                     </div>
                 @endif
-                    <div class="container">
-                        <form  @if($mode == 'CREAR') action="{{ route('admin.store_categoria') }}" @elseif($mode == 'EDITAR')   action="{{ route('admin.editar_categoria_put', $categoria->id) }}"  @endif method="POST">
+                    <div class="container formulario " >
+                        <form  @if($mode == 'CREAR') action="{{ route('admin.store_categoria') }}" @elseif($mode == 'EDITAR')   action="{{ route('admin.editar_categoria_put', $categoria->id) }}"  @endif method="POST" enctype="multipart/form-data">
                             @csrf
-
+                            
                             <div class="container row">
-                                <div class="col-md-2">
-                                    <label for="nombre">Nombre</label>
+                                <div class="col-md-2" style="display: flex; justify-content: center; align-items: center;">
+                                
                                 </div>
                                 <div class="col-md-6">
                                     @if($mode == "CREAR")
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+                                    
+                                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+                                     <input type="file" class="form-control" id="imagen" name="imagen" placeholder="Imagen">
                                     @elseif($mode == "EDITAR")
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="{{$categoria->nombre}}">
+                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="{{$categoria->nombre}}">
+                                        <input type="file" class="form-control" id="imagen" name="imagen" placeholder="Imagen" value="{{$categoria->imagen}}">
                                     @endif
                                    
                                 </div>
@@ -51,6 +54,7 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Imagen</th>
                                 <th>Nombre</th>
                                 <th>Editar</th>
                                 <th>Eliminar</th>
@@ -60,11 +64,12 @@
                             @foreach($categorias as $categoria)
                                 <tr>    
                                     <td>{{ $categoria->id }}</td>
+                                    <td><img width="50px" height="50px" src="{{ asset('storage/'. $categoria->imagen) }}" alt=""></td>
                                     <td>{{ $categoria->nombre }}</td>
                                     <td>
                                        <a class="btn btn-success" href="{{route('admin.editar_categoria' , $categoria->id)}}">Editar</a>                               
                                     </td>
-                                    <td>
+                                    <td> 
                                         <form action="{{route('admin.eliminar_categoria', $categoria->id)}}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -91,26 +96,15 @@
     </div>
  
     <style>
-
-    </style>
-    <style>
-        .container{
-            height: auto!important;
-            margin-top:20px;
+        .container.formulario{
            
-        }
-        .menu_cliente {
-          
-        }
-        .imput_imagen{
-            width:500px!important;
-            
-        }
-        .container_imagenes{
-            display: flex;
            
+            grid-gap: 10px;
+            justify-content: center;
             align-items: center;
+            margin-bottom: 10px;
         }
     </style>
+   
  
 @endsection

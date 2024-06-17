@@ -13,6 +13,7 @@ use App\Models\imagenes as Imagenes;
 use App\Models\Tranferencia;
 use App\Models\Estado;
 use App\Models\Dolar;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
@@ -30,6 +31,29 @@ class AdminController extends Controller
         return view('admin.dolar' ,[ 'dolar' => $dolar]);
     }
 
+    public function clientes()
+    {
+        return view('admin.clientes' , ['usuarios' => User::permission('user')->get() ]);
+    }
+
+    public function crear_admin()
+    {
+       $admin = User::permission('admin')->get(); 
+        return view('admin.crear_admin' , ['admin' => $admin]);
+    }
+
+    public function crear_admin_post(Request $request)
+    {
+         $request->all();
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'numero_telefono' => $request->telefono,
+          
+        ])->assignRole('admin');
+        return back()->with('mensage' , 'Usuario creado correctamente');
+    }
     public function actulizar_dolar(Request $request)
     {
          $dolar = Dolar::first();
@@ -40,7 +64,7 @@ class AdminController extends Controller
     
      public function producto()
      {
-        $productos = Producto::paginate(10);
+        $productos = Producto::simplePaginate(10);
         return view('admin.productos', [
             'productos' => $productos
         ]);
@@ -74,7 +98,7 @@ class AdminController extends Controller
             'descuento' => $request->descuento == 0 ? null : $request->tiempo_descuento,
             'tiempo_descuento' => $request->descuento == 0 ? null : $request->tiempo_descuento ?? 0,
             'stop' => $request->Stop,
-            'descripcion' => '',
+            'descripcion' => $request->descripcion_main,
             'ventas' => 0,
             'inmagen_default' =>  $request->file('imagen')->store('imagenes' , 'public') ,
             'precio' => $request->precio,
@@ -115,7 +139,7 @@ class AdminController extends Controller
    {
         $mode = "CREAR";
         $categorias = Categoria::paginate(10);
-      
+
         return view('admin.crear_categoria' , [
             'mode' => $mode,
             'categorias' => $categorias,
@@ -125,8 +149,10 @@ class AdminController extends Controller
 
    public function store_categoria(Request $request)
    {
+         $imagen = $request->file('imagen')->store('imagen' , 'public') ?? null;
         Categoria::create([
             'nombre' => $request->nombre,
+            'imagen' => $imagen,
         ]);
         return back()->with('mensaje', 'Se ha creado la categoría exitosamente');
    }
@@ -153,6 +179,11 @@ class AdminController extends Controller
    {
         $categoria = Categoria::find($id);
         $categoria->nombre = $request->get('nombre');
+        if( $request->hasFile('imagen'))
+        {
+            $imagen = $request->file('imagen')->store('imagen' , 'public') ?? null;
+            $categoria->imagen =$imagen ;
+        }
         $categoria->save();
 
         return back()->with('mensage' , 'Categoria editada correctamente');
@@ -210,6 +241,14 @@ class AdminController extends Controller
     public function ordenes_no_pagas()
     {
         $ordenes = Tranferencia::where('id_estado', '=', 3)->paginate(10);
+        return view('admin.ordenes_no_pagas', [
+            'OrdenesDePagos' => $ordenes
+        ]);
+    }
+
+    public function ordenes_en_envio()
+    {
+        $ordenes = Tranferencia::where('id_estado', '=', 4)->paginate(10);
         return view('admin.ordenes_no_pagas', [
             'OrdenesDePagos' => $ordenes
         ]);

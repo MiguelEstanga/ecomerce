@@ -8,7 +8,7 @@
 <div class="container tranferencia">
     <form action="{{ route('tranferencia.index') }}" method="post">
           @csrf
-          <x-empresa_de_envio />
+          
           <div class="alert alert-success" role="alert">
             Precio del dolar: {{ $dolar->precio }}
           </div>

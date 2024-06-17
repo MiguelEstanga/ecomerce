@@ -8,12 +8,14 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Producto</th>
-                    
                     <th scope="col" >Imagen</th>
-                    <th scope="col">Cantidad</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Cantidad disponible</th>
+                    <th>Precio unitario</th>
+                    
                     <th scope="col">Precio</th>
-                    <th scope="col">Total</th>
+                    <th scope="col">Cantidad</th>
+                    
                     <th scope="col" > Agrgar </th>
                     <th scope="col" >Remover</th>
                 </tr>
@@ -28,29 +30,43 @@
                     @endphp
                     <tr>
                         <td>
-                            {{$carrito[$i]->producto->nombre}}
-                        </td>
-                        
-                        <td>
-                            <img  width="100px" height="100px" src="{{ asset('storage/'.$carrito[$i]->producto->inmagen_default) }}" alt="producto"/>
+                            <div>
+                                <img  width="50px" height="50px" src="{{ asset('storage/'.$carrito[$i]->producto->inmagen_default) }}" alt="producto"/>
+                            </div>
+                           
                             
                         </td>
-                        <td>{{ $carrito[$i]->producto->precio }}</td>
+                        <td>
+                            {{$carrito[$i]->producto->nombre}}
+                        </td>
+                        <td>{{ $carrito[$i]->producto->stop }}</td>
+                        <td>
+                            {{$carrito[$i]->producto->precio}}
+                        </td>
                         <td>{{ $carrito[$i]->cantidad * $carrito[$i]->producto->precio }}</td>
                         <form action="{{route('carrito.aculizar_cantidad')}}" method="POST">
                             @csrf
                             <td>
-                                <input
-                                    style="width: 200px;"  
+                                <div style="display:flex;   justify-content: center; align-items:center;      ">
+                                    <input
+                                  
                                     class="form-control" type="number" id="cantidad" name="carrito_cantidad" value="{{ $carrito[$i]->cantidad }}" >
+                                </div>
+                            
                             </td>
                             <td>
+                               
                                     <input type="text" name="carrito_id" value="{{ $carrito[$i]->id }}" hidden>
+
+                        
                                     <button type="submit" class="btn btn-success">Agregar</button>                               
                             </td>
                             
                                
                         </form>
+                       
+                        
+                        
                             <td>
                                 <form action="{{route('carrito.eliminar_carrito' )}}" method="POST">
                                     @method('DELETE')
@@ -68,7 +84,7 @@
             <tfoot>
                 <tr>
                     <td colspan="6">Total</td>
-                    <td id="carrito_total">{{ $total }}</td>
+                    <td id="carrito_total">{{ $total }}$</td>
                 </tr>
                 <tr>
                     <td colspan="6"></td>
@@ -91,6 +107,7 @@
     <style>
         .carrito_container{
             margin-top: 30px;
+            border-radius: 15px;
         }
         table tr td{
            

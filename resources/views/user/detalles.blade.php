@@ -3,7 +3,11 @@
 @section('content')
     <div class="container">
         <div class="container row">
-           
+            @if(session()->has('mensage'))
+                <div class="alert alert-success">
+                    {{session()->get('mensage')}}
+                </div>
+            @endif
             <div class="col-md-12 cliente_data">
                 <table class="table">
                     <tbody>
@@ -13,7 +17,7 @@
                              <td>Precio</td>
                              <td>Descripcion</td>
                              <td>Cantidad</td>
-                          
+                            <td>Total</td>
                         </thead>
                         <tbody>
                             @foreach($HistorialCompra as $item)
@@ -21,7 +25,12 @@
                                   <td>{{ $item->producto->nombre }}</td>
                                   <td>{{ $item->producto->precio }}</td>
                                   <td>{{ $item->producto->descripcion }}</td>
-                                    <td>Crear campos</td>
+                                  <td> {{ $item->cantidad }}</td>
+                                    <td>
+                                        {{  
+                                            $item->producto->precio * $item->cantidad
+                                        }}
+                                    </td>
                               </tr>
                             @endforeach
                         </tbody>
@@ -29,7 +38,25 @@
                     
                 </table>
                 <div class="aler ">
-                    Estado {{$Tranferencia->estado->estado}}
+                   <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>Estado</td>
+                                <td>{{$Tranferencia->estado->estado}}</td>
+                                @if($Tranferencia->estado->id == 4)
+                                <td>
+                                    <form action="{{ route('retirado') }}" method="POST">
+                                        @csrf
+                                        <input type="text"  name="id" hidden value="{{$Tranferencia->id}}">
+                                        <button class="btn btn-primary">
+                                            Calificar como retirado 
+                                        </button>
+                                    </form>    
+                                </td> 
+                                @endif
+                            </tr>
+                        </tbody>
+                   </table>
                 </div>
                 <div class="container">
                     <h2 class="alert">
@@ -51,7 +78,7 @@
                             $retiro = Retiro::getRetiro($Tranferencia->id_epresas_de_envio_y_retiro);
                             $sucursal = Retiro::getSucursal($Tranferencia->id_sucursal);
                         @endphp
-                        <table class="table">
+                        <table class="table table-bordered">
                             <thead>
                                 <td>Retiro por</td>
                                 <td>Sucursal</td>

@@ -1,25 +1,20 @@
 <div>
     <ul class="container">
-        <li>
-            <a href="">
-               Ordenes
-            </a>
-           
-        </li>
+      
         
-        <li>
-           <a href="">
-               Mis datos
+        <li class="{{ Route::is('user.index') ? 'active' : '' }}">
+           <a href="{{route('user.index')}}">
+              Ordenes en proceso 
            </a>
         </li>
-        <li>
-            <a href="">
+        <li class="{{ Route::is('user.ordenes_pagas') ? 'active' : '' }}">
+            <a href="{{route('user.ordenes_pagas')}}">
                 Ordenes Completada
             </a>
          </li>
-         <li>
-            <a href="{{route('user.ordenes_pagas')}}">
-                Mis ordenes pagadas
+         <li class="{{ Route::is('user.datos') ? 'active' : '' }}" >
+            <a href="{{route('user.datos' , ['id' => Auth::user()->id])}}">
+                Perfil
             </a>
          </li>
        

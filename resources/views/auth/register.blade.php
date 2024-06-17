@@ -13,13 +13,24 @@
             
             
             <div class="formularios">
+                @if( session('mensaje'))
+                    <div class="alert alert-danger" role="alert" id="mensaje">
+                        {{ session('mensaje') }}
+                    </div>
+                @endif
+              
                 <form action="{{ route('registro.post') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nombre de usuario</label>
                         <input type="text" name="nombre" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">Nombre de usuario para poder acceder a la aplicación</div>
-                      </div>
+                    </div>
+                    <div >
+                        <label for="exampleInputEmail1" class="form-label">Numero de teléfono</label>
+                        <input type="telefono" name="telefono" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">+58 </div>
+                    </div>
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label">Email </label>
                       <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -57,7 +68,8 @@
     }
     .container_formulario{
         width: 400px;
-        height: 600px;
+        height: auto;
+        padding: 10px;
         background-color: white;
         border-radius: 10px;
         box-shadow: 0 0 10px #000;
@@ -69,11 +81,9 @@
     .formularios{
        
         width: 100%;
-        height: 250px;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+        height: auto;
+        padding: 10px;
+    
     }
     .container h2{
         border:solid 1px red;
@@ -84,7 +94,10 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: black;
+        background-image: url({{ asset('storage/' . 'imagenes/fullOffice.jpg') }});
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
      
     }
 </style>

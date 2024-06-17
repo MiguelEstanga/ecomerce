@@ -3,10 +3,10 @@
 @section('content')
     <div class="container">
         <div class="container row">
-            <div class="col-md-3 menu_cliente">
+            <div class="col-md-3 menu_admin">
                 <x-menu-admin />
             </div>
-            <div class="col-md-8 cliente_data">
+            <div class="col-md-8 data_admin">
                 @if(session()->has('mensage'))
                     <h2 class="alert alert-success">
                         {{session()->get('mensage')}}
